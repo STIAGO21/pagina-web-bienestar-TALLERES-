@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Educación y Desarrollo - Bienestar Universitario UNIMINUTO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #031428;
+            color: #f8fafc;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .active-card-glow {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Clases de Alto Contraste para Accesibilidad */
+        .high-contrast-mode {
+            background-color: #000 !important;
+            background-image: none !important;
+            color: #fff !important;
+        }
+        .high-contrast-mode * {
+            border-color: #ffff00 !important;
+        }
+        .high-contrast-mode .bg-white, 
+        .high-contrast-mode .bg-slate-50,
+        .high-contrast-mode .bg-slate-800\/80,
+        .high-contrast-mode [class*="bg-[#"] {
+            background-color: #000 !important;
+            color: #ffff00 !important;
+        }
+        .high-contrast-mode .text-slate-900,
+        .high-contrast-mode .text-slate-600,
+        .high-contrast-mode .text-indigo-950,
+        .high-contrast-mode .text-amber-700 {
+            color: #fff !important;
+        }
+        .high-contrast-mode .bg-amber-400,
+        .high-contrast-mode .bg-amber-500 {
+            background-color: #ffff00 !important;
+            color: #000 !important;
+        }
+        .high-contrast-mode [class*="bg-gradient-to-"] {
+            background: #111 !important;
+            color: #ffff00 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950 transition-colors duration-300">
+
+    <header class="bg-[#020d1a] border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Logo Principal UNIMINUTO -->
+                <div class="bg-white px-3 py-1.5 rounded-xl shadow-md flex items-center justify-center min-h-[44px]">
+                    <img src="Logo_Universidad_Uniminuto.png" alt="UNIMINUTO" class="h-9 w-auto object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'text-indigo-950 font-black text-xl tracking-tighter\'>MD</span><span class=\'text-slate-900 font-bold text-xs ml-1 leading-none uppercase\'>UNIMINUTO<br><span class=\'text-[8px] text-slate-600\'>Corporación Universitaria Minuto de Dios</span></span>';">
+                </div>
+                <div class="hidden sm:block h-8 w-px bg-slate-800"></div>
+                <!-- Titulación Actualizada -->
+                <div class="hidden sm:block">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-amber-400 block">DIRECCIÓN DE BIENESTAR</span>
+                    <span class="text-xs font-bold text-white tracking-wider block">ASUNTOS ESTUDIANTILES</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#sedes-section" class="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-white transition border border-slate-700">
+                    <i class="fa-solid fa-building-columns text-amber-400"></i> Centros Universitarios
+                </a>
+                <a href="#split-section" class="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-white transition border border-slate-700">
+                    <i class="fa-solid fa-calendar-week text-amber-400"></i> Cronograma & Áreas
+                </a>
+                <div id="workshopCountHeader" class="bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-full text-xs font-black shadow-inner flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="activeCountText">Programación Vigente</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <section id="sedes-section" class="text-center max-w-3xl mx-auto space-y-2">
+            <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase" tabindex="0">Centros Universitarios UNIMINUTO</h1>
+            <p class="text-xs sm:text-sm text-slate-300" tabindex="0">Haz clic en tu sede para cargar automáticamente su cronograma semanal y sus brochures de oferta institucional.</p>
+        </section>
+
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="campusContainer" role="group" aria-label="Selector de Centros Universitarios">
+            <!-- Dynamic JS Output -->
+        </section>
+
+        <section id="campusBanner" aria-live="polite" class="rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white transition-all duration-500 border border-slate-700/60">
+            <!-- Dynamic Banner JS Output -->
+        </section>
+
+        <div id="split-section" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mt-8">
+            
+            <!-- Lado Izquierdo: Cronograma Semanal -->
+            <section class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200 shadow-xl relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-200">
+                    <div>
+                        <h3 class="text-lg font-black text-slate-900 flex items-center gap-2" tabindex="0">
+                            <i class="fa-solid fa-calendar-days text-amber-500" aria-hidden="true"></i> Vista Semanal
+                        </h3>
+                        <p class="text-xs text-slate-600" tabindex="0">Semana en Curso • Sede seleccionada</p>
+                    </div>
+                    <div id="selectedCampusScheduleTag" aria-live="polite" class="px-3 py-1.5 bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-black rounded-lg uppercase tracking-wider text-center shadow-sm">
+                        <!-- Dynamic Sede -->
+                    </div>
+                </div>
+                
+                <div class="flex flex-col gap-4 max-h-[750px] overflow-y-auto custom-scrollbar pr-2" id="weeklyScheduleContainer" aria-live="polite">
+                    <!-- Dynamic Schedule Content -->
+                </div>
+            </section>
+
+            <!-- Lado Derecho: Áreas -->
+            <section class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200 shadow-xl relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-200">
+                    <div>
+                        <h3 class="text-lg font-black text-slate-900 flex items-center gap-2" tabindex="0">
+                            <i class="fa-solid fa-layer-group text-indigo-500" aria-hidden="true"></i> Áreas de Bienestar Universitario
+                        </h3>
+                        <p class="text-xs text-slate-600" tabindex="0">Haz clic en cualquier área para ver su brochure completo</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[750px] overflow-y-auto custom-scrollbar pr-1" id="areasCardsContainer" aria-live="polite">
+                    <!-- Dynamic Areas with Upcoming Workshops -->
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Widget Flotante de Accesibilidad -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <div id="a11yMenu" class="hidden absolute bottom-14 right-0 bg-white border border-slate-200 rounded-2xl shadow-2xl p-3 w-64 space-y-2 mb-2 origin-bottom-right transition-all">
+            <h4 class="text-xs font-black text-slate-900 border-b border-slate-100 pb-2 mb-2 px-1">Opciones de Accesibilidad</h4>
+            <button onclick="toggleHighContrast()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 text-xs font-bold text-slate-700 flex items-center gap-2 transition">
+                <i class="fa-solid fa-circle-half-stroke text-indigo-600 w-4 text-center"></i> <span id="btnContrastText">Alto Contraste</span>
+            </button>
+            <button onclick="readPageAloud()" id="btnReadAloud" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 text-xs font-bold text-slate-700 flex items-center gap-2 transition">
+                <i class="fa-solid fa-volume-high text-emerald-600 w-4 text-center"></i> <span>Leer Página en Voz Alta</span>
+            </button>
+            <button onclick="stopReading()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 text-xs font-bold text-red-600 flex items-center gap-2 transition hidden" id="btnStopReading">
+                <i class="fa-solid fa-circle-stop w-4 text-center"></i> <span>Detener Lectura</span>
+            </button>
+        </div>
+        <button onclick="toggleA11yMenu()" aria-label="Menú de Accesibilidad" class="w-12 h-12 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 border-2 border-white/20">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
+    <div id="areaModal" class="fixed inset-0 z-[60] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden" aria-modal="true" role="dialog">
+        <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50" id="modalHeader"></div>
+            <div class="p-6 overflow-y-auto custom-scrollbar space-y-3 flex-grow bg-white" id="modalBody"></div>
+            <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end items-center">
+                <button onclick="closeModal()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl transition shadow">
+                    Cerrar Brochure
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#020d1a] text-slate-400 text-xs py-8 border-t border-slate-800 text-center mt-12 space-y-3">
+        <div class="flex justify-center items-center">
+            <!-- Logo del Footer Corregido dentro de una cápsula limpia -->
+            <div class="bg-white px-3 py-1.5 rounded-xl shadow-md inline-flex items-center justify-center min-h-[40px]">
+                <img src="Logo_Universidad_Uniminuto.png" alt="UNIMINUTO" class="h-8 w-auto object-contain" onerror="this.style.display='none';">
+            </div>
+        </div>
+        <p>© 2026 UNIMINUTO - Dirección de Bienestar - Asuntos Estudiantiles</p>
+    </footer>
+
+    <script>
+        const campusList = [
+            { 
+                id: "calle80", 
+                name: "Engativá Calle 80", 
+                subtitle: "Minuto de Dios Engativa", 
+                code: "CLL 80", 
+                headerBg: "bg-gradient-to-r from-blue-700 to-indigo-900",
+                image: "CALLE 80 UNIMINUTO.jpg",
+                phrase: '"Excelencia académica al servicio de la transformación social"'
+            },
+            { 
+                id: "perdomo", 
+                name: "Perdomo", 
+                subtitle: "Perdomo Ciudad Bolivar", 
+                code: "PERDOMO", 
+                headerBg: "bg-gradient-to-r from-slate-800 to-slate-950",
+                image: "PERDOMO.webp",
+                phrase: '"Educación de calidad al alcance de todos"'
+            },
+            { 
+                id: "sancamilo", 
+                name: "San Camilo", 
+                subtitle: "Las Cruces Santa Fe / San Camilo", 
+                code: "SAN CAMILO", 
+                headerBg: "bg-gradient-to-r from-amber-900 to-red-950",
+                image: "sancamilo-uniminuto.png",
+                phrase: '"Formación integral para el desarrollo humano y comunitario"'
+            },
+            { 
+                id: "kennedy", 
+                name: "Kennedy Central", 
+                subtitle: "Kennedy Central", 
+                code: "KENNEDY", 
+                headerBg: "bg-gradient-to-r from-emerald-800 to-teal-950",
+                image: "KENNEDY.jpg",
+                phrase: '"Inclusión, innovación y proyección profesional"'
+            },
+            { 
+                id: "unisanpablo", 
+                name: "Uni San Pablo", 
+                subtitle: "San Cristobal Unisanpablo", 
+                code: "UNISANPABLO", 
+                headerBg: "bg-gradient-to-r from-rose-900 to-purple-950",
+                image: "UNI SAN PABLO.jfif",
+                phrase: '"Compromiso con la excelencia y el crecimiento estudiantil"'
+            }
+        ];
+
+        const bienestarAreas = [
+            {
+                id: "jovenes_e",
+                title: "Programa Jóvenes a la E",
+                icon: "fa-graduation-cap",
+                color: "from-cyan-500 to-blue-600",
+                badgeBg: "bg-cyan-100 text-cyan-800 border border-cyan-300",
+                description: "Acompañamiento integral, talleres socioemocionales y tutorías para beneficiarios de Jóvenes a la E."
+            },
+            {
+                id: "salud_mental",
+                title: "Área de Salud Mental",
+                icon: "fa-brain",
+                color: "from-purple-500 to-indigo-600",
+                badgeBg: "bg-purple-100 text-purple-800 border border-purple-300",
+                description: "Regulación emocional, manejo del estrés, tolerancia al malestar y salud psicológica."
+            },
+            {
+                id: "salud_fisica",
+                title: "Área de Salud Física",
+                icon: "fa-heart-pulse",
+                color: "from-emerald-500 to-teal-600",
+                badgeBg: "bg-emerald-100 text-emerald-800 border border-emerald-300",
+                description: "Hábitos saludables, prevención, retos físicos y donación de sangre."
+            },
+            {
+                id: "acompanamiento_permanencia",
+                title: "Acompañamiento y Permanencia",
+                icon: "fa-handshake-angle",
+                color: "from-blue-500 to-sky-600",
+                badgeBg: "bg-blue-100 text-blue-800 border border-blue-300",
+                description: "Orientación académica, trayectorias formativas y retención estudiantil."
+            },
+            {
+                id: "desarrollo_humano_inclusion",
+                title: "Desarrollo Humano e Inclusión",
+                icon: "fa-users-between-lines",
+                color: "from-amber-500 to-orange-600",
+                badgeBg: "bg-amber-100 text-amber-800 border border-amber-300",
+                description: "Habilidades para la vida, diversidad, inclusión y formación axiológica."
+            },
+            {
+                id: "permanencia_exito_estudiantil",
+                title: "Permanencia y Éxito Estudiantil",
+                icon: "fa-trophy",
+                color: "from-indigo-500 to-violet-700",
+                badgeBg: "bg-indigo-100 text-indigo-800 border border-indigo-300",
+                description: "Atención estudiantil, tutorías CAEX y agendamiento de mentorías."
+            },
+            {
+                id: "promocion_socioeconomica",
+                title: "Promoción Socioeconómica",
+                icon: "fa-coins",
+                color: "from-rose-500 to-pink-600",
+                badgeBg: "bg-rose-100 text-rose-800 border border-rose-300",
+                description: "Postulación a becas socioeconómicas, finanzas personales y auxilio económico."
+            }
+        ];
+
+        let rawDataset = [];
+        let currentSelectedCampus = "calle80";
+        let currentModalAreaId = null;
+        let currentDateSim = new Date();
+        let isHighContrast = false;
+
+        function toggleA11yMenu() {
+            document.getElementById("a11yMenu").classList.toggle("hidden");
+        }
+
+        function toggleHighContrast() {
+            isHighContrast = !isHighContrast;
+            if (isHighContrast) {
+                document.body.classList.add("high-contrast-mode");
+                document.getElementById("btnContrastText").innerText = "Desactivar Alto Contraste";
+            } else {
+                document.body.classList.remove("high-contrast-mode");
+                document.getElementById("btnContrastText").innerText = "Alto Contraste";
+            }
+        }
+
+        function readPageAloud() {
+            if (!('speechSynthesis' in window)) {
+                alert("Tu navegador no soporta lectura en voz alta.");
+                return;
+            }
+            const campusObj = campusList.find(c => c.id === currentSelectedCampus);
+            const workshops = getWorkshopsByCampus(currentSelectedCampus);
+            let textToRead = `Plataforma de Bienestar Universitario. Sede ${campusObj.name}. Hay ${workshops.length} actividades vigentes. `;
+            const upcoming = workshops.filter(w => w.timestamp >= currentDateSim).slice(0, 3);
+            upcoming.forEach(w => {
+                textToRead += `${w.title}, el ${w.dayOfWeek} ${w.date} a las ${w.time}. Ubicación ${w.locationDetail}. `;
+            });
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'es-CO';
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopReading() {
+            window.speechSynthesis.cancel();
+        }
+
+        function parseDateTime(dateStr, timeStr) {
+            if (!dateStr) return null;
+            let parts = dateStr.trim().split('/');
+            if (parts.length !== 3) return null;
+            let day = parseInt(parts[0], 10);
+            let month = parseInt(parts[1], 10) - 1;
+            let year = parseInt(parts[2], 10);
+            if (year < 100) year += 2000;
+
+            let hours = 8, minutes = 0;
+            if (timeStr) {
+                let t = timeStr.trim().toUpperCase();
+                let isPM = t.includes("P.M") || t.includes("PM");
+                let isAM = t.includes("A.M") || t.includes("AM");
+                let match = t.match(/(\d{1,2}):(\d{2})/);
+                if (match) {
+                    hours = parseInt(match[1], 10);
+                    minutes = parseInt(match[2], 10);
+                    if (isPM && hours < 12) hours += 12;
+                    if (isAM && hours === 12) hours = 0;
+                }
+            }
+            return new Date(year, month, day, hours, minutes);
+        }
+
+        function getCurrentWeekDays() {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const distanceToMonday = (dayOfWeek === 0 ? -6 : 1 - dayOfWeek);
+            
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + distanceToMonday);
+            monday.setHours(0, 0, 0, 0);
+
+            const days = [];
+            const dayNames = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            
+            for (let i = 0; i < 6; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                days.push({
+                    name: dayNames[i],
+                    dateObj: d,
+                    dateStr: `${day}/${month}/${year}`
+                });
+            }
+            return days;
+        }
+
+        function renderActionButton(item) {
+            let hasValidLink = item.link && (item.link.startsWith('http://') || item.link.startsWith('https://'));
+            if (hasValidLink) {
+                return `<a href="${item.link}" target="_blank" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] rounded-lg transition shadow-2xs flex items-center gap-1">Ingresar <i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i></a>`;
+            }
+            let locLower = (item.location || "").toLowerCase();
+            if (locLower.includes("virtual") || locLower.includes("sincron")) {
+                return `<span class="px-2 py-0.5 bg-slate-100 text-slate-600 font-bold text-[10px] rounded-lg border border-slate-200">Enlace Pendiente</span>`;
+            }
+            return `<span class="px-2 py-0.5 bg-amber-100 text-amber-900 font-bold text-[10px] rounded-lg border border-amber-200">Presencial / En Sede</span>`;
+        }
+
+        async function cargarTalleresDesdeSheets() {
+            try {
+                const respuesta = await fetch('https://sheetdb.io/api/v1/nj19azn18xf2t');
+                const datos = await respuesta.json();
+                
+                const ahora = new Date();
+                currentDateSim = ahora;
+
+                let datasetProcesado = [];
+
+                datos.forEach(item => {
+                    let areaText = (item.Área || item.Area || "").toLowerCase();
+                    let areaId = "salud_fisica";
+                    if (areaText.includes("mental")) areaId = "salud_mental";
+                    else if (areaText.includes("permanencia") && !areaText.includes("éxito") && !areaText.includes("exito")) areaId = "acompanamiento_permanencia";
+                    else if (areaText.includes("éxito") || areaText.includes("exito")) areaId = "permanencia_exito_estudiantil";
+                    else if (areaText.includes("socioeconómica") || areaText.includes("socioeconomica") || areaText.includes("finanzas")) areaId = "promocion_socioeconomica";
+                    else if (areaText.includes("jóvenes") || areaText.includes("jovenes")) areaId = "jovenes_e";
+                    else if (areaText.includes("desarrollo humano") || areaText.includes("inclusión") || areaText.includes("inclusion")) areaId = "desarrollo_humano_inclusion";
+
+                    let cUni = (item["Centro universitario"] || item.Centro_universitario || "").toLowerCase().trim();
+                    let campusId = "all";
+                    let esCipadO90 = cUni.includes("cipad") || cUni.includes("90") || cUni.includes("calle 90") || cUni.includes("cll90") || cUni.includes("cll 90");
+
+                    if (esCipadO90) {
+                        campusId = "calle80";
+                    } else if (cUni.includes("80") || cUni.includes("engativá") || cUni.includes("engativa")) {
+                        campusId = "calle80";
+                    } else if (cUni.includes("perdomo")) {
+                        campusId = "perdomo";
+                    } else if (cUni.includes("camilo") || cUni.includes("san camilo")) {
+                        campusId = "sancamilo";
+                    } else if (cUni.includes("kennedy")) {
+                        campusId = "kennedy";
+                    } else if (cUni.includes("san pablo") || cUni.includes("unisanpablo") || cUni.includes("pablo")) {
+                        campusId = "unisanpablo";
+                    } else {
+                        campusId = "all";
+                    }
+
+                    let dateStr = (item.Fecha || "").trim();
+                    let timeClean = (item.Hora || "08:00").trim();
+                    let dObj = parseDateTime(dateStr, timeClean);
+
+                    if (!dObj) return;
+
+                    const limiteVisibilidad = new Date(dObj.getTime() + (3 * 60 * 60 * 1000));
+                    if (limiteVisibilidad < ahora) {
+                        return;
+                    }
+
+                    let daysMap = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                    let dayName = daysMap[dObj.getDay()] || "Lunes";
+
+                    let lugarRaw = (item.Lugar || item["Lugar (Ejemplo B302, CRAII, sincronico)"] || "").trim();
+                    if (!lugarRaw) lugarRaw = (item.Enlace && item.Enlace.startsWith('http')) ? "Modalidad Virtual" : "Presencial";
+
+                    let ubicacionDetalle = lugarRaw;
+                    if (esCipadO90) {
+                        ubicacionDetalle = `${lugarRaw} (Sede Engativá Calle 80 / CIPAD Calle 90)`;
+                    }
+
+                    datasetProcesado.push({
+                        area: areaId,
+                        title: item.Actividad || "Taller / Campaña Institucional",
+                        date: dateStr,
+                        time: timeClean,
+                        location: lugarRaw,
+                        locationDetail: ubicacionDetalle,
+                        link: (item.Enlace || "").trim(),
+                        campus: campusId,
+                        dayOfWeek: dayName,
+                        grantingArea: item.Área || item.Area || "Bienestar Universitario",
+                        timestamp: dObj,
+                        isCipad: esCipadO90
+                    });
+                });
+
+                rawDataset = datasetProcesado;
+                selectCampus(currentSelectedCampus);
+            } catch (error) {
+                console.error("Error al cargar oferta desde SheetDB:", error);
+                selectCampus(currentSelectedCampus);
+            }
+        }
+
+        function getWorkshopsByCampus(campusId) {
+            return rawDataset.filter(w => w.campus === "all" || w.campus === campusId);
+        }
+
+        function renderCampusSelector() {
+            const container = document.getElementById("campusContainer");
+            container.innerHTML = campusList.map(c => {
+                const isActive = c.id === currentSelectedCampus;
+                const countSede = getWorkshopsByCampus(c.id).length;
+                
+                const bgStyle = `background-image: linear-gradient(180deg, rgba(3, 20, 40, 0.45) 0%, rgba(3, 20, 40, 0.85) 100%), url('${encodeURI(c.image)}'); background-size: cover; background-position: center;`;
+
+                return `
+                    <div onclick="selectCampus('${c.id}')" 
+                         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); selectCampus('${c.id}'); }"
+                         tabindex="0"
+                         role="button"
+                         aria-pressed="${isActive}"
+                         class="cursor-pointer transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between border bg-slate-50 shadow-xl ${isActive ? 'active-card-glow border-amber-400' : 'border-slate-200 hover:border-amber-400/60'}">
+                        <div style="${bgStyle}" class="p-4 text-white relative min-h-[120px] flex flex-col justify-end">
+                            <span class="text-[10px] font-bold text-slate-200 block tracking-wider uppercase opacity-90">${c.subtitle}</span>
+                            <h4 class="font-black text-lg text-white leading-snug mt-0.5">${c.name}</h4>
+                            <span class="text-[10px] font-bold text-amber-300 block mt-1">${countSede} actividad(es)</span>
+                            ${isActive ? `<span class="absolute top-3 right-3 bg-amber-400 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow">✓ ACTIVO</span>` : ''}
+                        </div>
+                        <div class="p-4 bg-white flex-grow flex flex-col justify-between space-y-4 rounded-b-2xl">
+                            <span class="text-[11px] font-semibold text-slate-600">${c.subtitle}</span>
+                            <div>
+                                ${isActive ? `<div class="w-full py-2.5 bg-amber-400 text-slate-950 font-black text-xs text-center rounded-xl uppercase tracking-wider">Sede Seleccionada</div>` : `<button class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs text-center rounded-xl transition">Explorar Oferta</button>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderCampusBanner() {
+            const banner = document.getElementById("campusBanner");
+            const campusObj = campusList.find(c => c.id === currentSelectedCampus);
+            const campusWorkshops = getWorkshopsByCampus(currentSelectedCampus);
+
+            const bgStyle = `background-image: linear-gradient(90deg, rgba(2, 13, 26, 0.88) 0%, rgba(2, 13, 26, 0.94) 100%), url('${encodeURI(campusObj.image)}'); background-size: cover; background-position: center;`;
+
+            banner.style = bgStyle;
+            banner.className = `rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white transition-all duration-500 border border-slate-700/60`;
+            banner.innerHTML = `
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-2xl">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-amber-400 bg-slate-950/80 px-3 py-1 rounded-full border border-amber-400/30 inline-block backdrop-blur-sm">SEDE ACTIVA SELECCIONADA</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight drop-shadow-md">${campusObj.name}</h2>
+                        <p class="text-xs sm:text-sm italic text-slate-200 font-medium drop-shadow-sm">${campusObj.phrase}</p>
+                    </div>
+                    <div class="bg-slate-950/80 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-right min-w-[240px] flex flex-col justify-between shadow-2xl">
+                        <div>
+                            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest block">PROGRAMACIÓN INSTITUCIONAL</span>
+                            <div class="text-3xl font-black text-amber-400 my-0.5">${campusWorkshops.length}</div>
+                            <span class="text-xs font-bold text-white block">Actividades en Agenda</span>
+                        </div>
+                        <a href="#split-section" class="mt-4 w-full py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-xl shadow transition text-center block uppercase tracking-wider">EXPLORAR CRONOGRAMA</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWeeklySchedule() {
+            const container = document.getElementById("weeklyScheduleContainer");
+            const campusObj = campusList.find(c => c.id === currentSelectedCampus);
+            document.getElementById("selectedCampusScheduleTag").innerText = campusObj ? campusObj.name : "";
+
+            const data = getWorkshopsByCampus(currentSelectedCampus);
+            const weekDays = getCurrentWeekDays();
+
+            container.innerHTML = weekDays.map(dayInfo => {
+                const dayWorkshops = data.filter(w => {
+                    if (w.date === dayInfo.dateStr) return true;
+                    return (
+                        w.timestamp.getFullYear() === dayInfo.dateObj.getFullYear() &&
+                        w.timestamp.getMonth() === dayInfo.dateObj.getMonth() &&
+                        w.timestamp.getDate() === dayInfo.dateObj.getDate()
+                    );
+                });
+
+                dayWorkshops.sort((a, b) => a.timestamp - b.timestamp);
+
+                return `
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-2xs">
+                                    <i class="fa-solid fa-calendar-day"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-black uppercase text-indigo-950 tracking-wider block">${dayInfo.name}</span>
+                                    <span class="text-[10px] font-bold text-amber-700">${dayInfo.dateStr}</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">${dayWorkshops.length} Actividades</span>
+                        </div>
+                        <div class="space-y-2.5">
+                            ${dayWorkshops.length > 0 ? dayWorkshops.map(item => `
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs hover:border-amber-400 transition space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-black text-amber-700 flex items-center gap-1">
+                                            <i class="fa-regular fa-clock"></i> ${item.time}
+                                        </span>
+                                        <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">${item.grantingArea}</span>
+                                    </div>
+                                    <h6 class="text-xs font-bold text-slate-900 leading-snug">${item.title}</h6>
+                                    <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                                        <span class="text-[9px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                            <i class="fa-solid fa-location-dot text-amber-600 mr-1"></i>${item.locationDetail}
+                                        </span>
+                                        ${renderActionButton(item)}
+                                    </div>
+                                </div>
+                            `).join("") : `<p class="text-[10px] text-slate-400 italic py-2 text-center">Sin actividades programadas para este día de la semana.</p>`}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderAreasCards() {
+            const container = document.getElementById("areasCardsContainer");
+            const campusWorkshops = getWorkshopsByCampus(currentSelectedCampus);
+
+            const countHeader = document.getElementById("workshopCountHeader");
+            if (countHeader) {
+                countHeader.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span id="activeCountText">${campusWorkshops.length} Programaciones Vigentes</span>`;
+            }
+
+            container.innerHTML = bienestarAreas.map(area => {
+                const areaWorkshops = campusWorkshops.filter(w => w.area === area.id);
+                const upcomingWorkshops = areaWorkshops.filter(w => w.timestamp >= currentDateSim).sort((a, b) => a.timestamp - b.timestamp);
+                const upcomingTwo = upcomingWorkshops.slice(0, 2);
+
+                return `
+                    <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:border-amber-400 p-4 flex flex-col justify-between space-y-3 shadow-2xs" tabindex="0">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="w-9 h-9 rounded-xl bg-gradient-to-br ${area.color} text-white flex items-center justify-center font-bold text-sm shadow-md flex-shrink-0">
+                                    <i class="fa-solid ${area.icon}"></i>
+                                </div>
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${area.badgeBg}">${areaWorkshops.length} Actividades</span>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-xs sm:text-sm text-slate-900 leading-snug">${area.title}</h4>
+                                <p class="text-[11px] text-slate-600 line-clamp-1 mt-0.5">${area.description}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5 pt-1 border-t border-slate-200">
+                            <span class="text-[10px] font-black uppercase text-amber-700 tracking-wider block">Próximas Ofertas:</span>
+                            ${upcomingTwo.length > 0 ? upcomingTwo.map(w => `
+                                <div class="bg-white p-2 rounded-lg border border-slate-200 text-[11px] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <div class="flex-grow">
+                                        <span class="font-bold text-slate-800 line-clamp-1" title="${w.title}">${w.title}</span>
+                                        <span class="text-[9px] text-slate-500 whitespace-nowrap block mt-0.5"><i class="fa-regular fa-clock mr-0.5"></i> ${w.date} -${w.time}</span>
+                                        <span class="text-[9px] font-semibold text-slate-600 block"><i class="fa-solid fa-location-dot text-amber-600 mr-0.5"></i> ${w.locationDetail}</span>
+                                    </div>
+                                    <button onclick="openAreaModal('${area.id}')" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded text-[9px] font-black uppercase tracking-wider transition whitespace-nowrap">Brochure</button>
+                                </div>
+                            `).join("") : `<p class="text-[10px] text-slate-400 italic">Sin actividades próximas programadas.</p>`}
+                        </div>
+                        <div class="pt-2">
+                            <button onclick="openAreaModal('${area.id}')" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition shadow flex items-center justify-center gap-2 uppercase tracking-wider">
+                                <i class="fa-solid fa-book-open"></i> Brochure Completo
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function openAreaModal(areaId) {
+            currentModalAreaId = areaId;
+            const area = bienestarAreas.find(a => a.id === areaId);
+            const campusWorkshops = getWorkshopsByCampus(currentSelectedCampus);
+            const areaWorkshops = campusWorkshops.filter(w => w.area === areaId);
+
+            document.getElementById("modalHeader").innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${area.color} text-white flex items-center justify-center font-bold text-lg shadow">
+                        <i class="fa-solid ${area.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black text-slate-900">${area.title}</h3>
+                        <p class="text-xs text-slate-600">Brochure detallado con todas las actividades y enlaces de ingreso</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-slate-900 p-2 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            document.getElementById("modalBody").innerHTML = areaWorkshops.length === 0 ? `
+                <div class="text-center py-8 text-slate-500 text-xs"><i class="fa-solid fa-circle-info text-2xl mb-2 block text-slate-400"></i>No hay actividades programadas para esta área actualmente.</div>
+            ` : areaWorkshops.map(w => `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="space-y-1.5">
+                        <span class="text-[10px] font-black uppercase text-amber-700 bg-amber-100 px-2 py-0.5 rounded">${w.dayOfWeek} - ${w.date}</span>
+                        <h5 class="text-sm font-bold text-slate-900 leading-snug">${w.title}</h5>
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                            <span><i class="fa-regular fa-clock text-amber-600 mr-1"></i>${w.time}</span>
+                            <span><i class="fa-solid fa-location-dot text-amber-600 mr-1"></i>${w.locationDetail}</span>
+                            <span class="font-semibold text-indigo-700"><i class="fa-solid fa-tag text-indigo-500 mr-1"></i>${w.grantingArea}</span>
+                        </div>
+                    </div>
+                    <div>
+                        ${renderActionButton(w)}
+                    </div>
+                </div>
+            `).join("");
+
+            document.getElementById("areaModal").classList.remove("hidden");
+        }
+
+        function closeModal() {
+            document.getElementById("areaModal").classList.add("hidden");
+            currentModalAreaId = null;
+        }
+
+        function selectCampus(campusId) {
+            currentSelectedCampus = campusId;
+            renderCampusSelector();
+            renderCampusBanner();
+            renderWeeklySchedule();
+            renderAreasCards();
+        }
+
+        window.onload = function () {
+            cargarTalleresDesdeSheets();
+        };
+    </script>
+</body>
+</html>
